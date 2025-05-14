@@ -1,0 +1,77 @@
+# i3status configuration file.
+
+general {
+        colors = true
+        interval = 5
+}
+
+order += "disk /home"
+order += "memory"
+order += "cpu_usage"
+order += "wireless _first_"
+order += "ethernet _first_"
+# order += "cpu_temperature 0"
+order += "battery all"
+order += "volume master"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "wifi: %essid %quality"
+        format_down = "wifi: down"
+        separator_block_width = 35
+}
+
+ethernet _first_ {
+        # if you use %speed, i3status requires root privileges
+        # format_up = "E: %ip (%speed)"
+        format_up = "eth: %ip"
+        format_down = "eth: down"
+        separator_block_width = 35
+}
+
+battery all {
+        format = "%status %percentage"
+        format_down = "no battery"
+        status_chr = "chr"
+        status_bat = "bat:"
+        status_unk = "unk"
+        status_full = "full"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+        separator_block_width = 35
+}
+
+tztime local {
+        format = "%D %H:%M "
+}
+
+cpu_usage {
+        format = "cpu: %usage"
+        separator_block_width = 35
+}
+
+cpu_temperature 0 {                                                                                                 
+        format = "%degrees °C"                                                                         
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input"                               
+}   
+
+volume master {
+        format = "vol: %volume"
+        format_muted = "vol: muted (%volume)"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+        separator_block_width = 35
+}
+
+memory {
+        format = "ram: %used"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+        separator_block_width = 35
+}
+
+disk /home {
+        format = "lv_home: %free"
+        separator_block_width = 35
+}
